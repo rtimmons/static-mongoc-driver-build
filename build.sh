@@ -28,7 +28,7 @@ fi
 if [ ! -e "$prefix/lib/bin/mongoc-stat" ]; then
     pushd "$BASENAME" >/dev/null
         if [ ! -e "Makefile" ]; then
-            ./configure \ 
+            ./configure \
                 --prefix="$prefix" \
                 --disable-automatic-init-and-cleanup \
                 --enable-static \
