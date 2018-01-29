@@ -61,3 +61,8 @@ if [ ! -e "$prefix/include/mongocxx" ]; then
         make install
     popd >/dev/null
 fi
+
+# TODO: not sure if need initial PKG_CONFIG_PATH or LD_LIBRARY_PATH
+# TODO: inline `pkg-config` invocation too long - separate var?
+PKG_CONFIG_PATH="$prefix/lib/pkgconfig" LD_LIBRARY_PATH="$prefix/lib:$LD_LIBRARY_PATH" \
+    c++ --std=c++11 test.cpp -o test $(PKG_CONFIG_PATH="$prefix/lib/pkgconfig" pkg-config --cflags --static --libs libmongocxx libmongoc-static-1.0 libbson-static-1.0)
