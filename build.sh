@@ -25,7 +25,7 @@ if [ ! -d "$BASENAME" ]; then
     tar xzf "$GZ_FILE"
 fi
 
-if [ ! -e "$prefix/lib/bin/mongoc-stat" ]; then
+if [ ! -e "$prefix/include/libmongoc-1.0" ]; then
     pushd "$BASENAME" >/dev/null
         if [ ! -e "Makefile" ]; then
             ./configure \
@@ -49,13 +49,15 @@ if [ ! -d "$REPO" ]; then
         --branch releases/stable --depth 1
 fi
 
-pushd "$REPO" > /dev/null
-    cmake -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_INSTALL_PREFIX="$prefix" \
-        -DCMAKE_PREFIX_PATH="$prefix" \
-        -DLIBBSON_DIR="$prefix" \
-        -DBUILD_SHARED_LIBS=OFF \
-        ;
-    make
-    make install
-popd >/dev/null
+if [ ! -e "$prefix/include/mongocxx" ]; then
+    pushd "$REPO" > /dev/null
+        cmake -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_INSTALL_PREFIX="$prefix" \
+            -DCMAKE_PREFIX_PATH="$prefix" \
+            -DLIBBSON_DIR="$prefix" \
+            -DBUILD_SHARED_LIBS=OFF \
+            ;
+        make
+        make install
+    popd >/dev/null
+fi
